@@ -1,0 +1,91 @@
+.start-screen,
+.end-screen {
+	width: 100%;
+	height: 100vh;
+	background: #2f2f2f;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 5vw;
+	color: #f1f1f1;
+	text-align: center;
+	line-height: 1.2;
+}
+
+.sticky-wrapper {
+	width: 100%;
+	height: 500vh;
+	border: 1px solid red;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.sticky-bg {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 10vw;
+}
+
+.card-frame {
+	position: absolute;
+	width: 95vh;
+	height: 30vh;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.card {
+	width: 24%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 2vw;
+	transform-style: preserve-3d;
+	position: relative;
+	transform: perspective(4000px) translateX(100vw) rotateY(180deg);
+}
+
+.front,
+.back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 1vw;
+	overflow: hidden;
+	backface-visibility: hidden;
+}
+
+.front {
+	background: #ffdd;
+	font-size: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.back {
+	transform: rotateY(180deg);
+	background: #e0ded7;
+	background-image: repeating-linear-gradient(
+		0deg,
+		#3b3a38,
+		#3b3a38 33.3%,
+		#ffffff00 0px,
+		#ffffff00 66.6%
+	);
+}
