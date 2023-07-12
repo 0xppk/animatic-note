@@ -1,0 +1,26 @@
+.container {
+	padding-top: 500px;
+	height: 2000px;
+	overflow-x: hidden;
+}
+
+.wrapper {
+	width: 100vw;
+	margin-bottom: 10rem;
+}
+
+.wrapper:nth-child(odd) {
+	background: #ff3777;
+}
+
+.wrapper:nth-child(even) {
+	background: #23239d;
+	display: flex;
+	justify-content: end;
+}
+
+p {
+	padding: 3rem 0;
+	font-size: 4rem;
+	white-space: nowrap;
+}
