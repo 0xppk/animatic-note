@@ -4,10 +4,39 @@
 	box-sizing: border-box;
 }
 
-html,
+html {
+	color-scheme: light;
+}
+
 body {
-	font-family: 'LINESeedKR-Bd';
+	font-family: 'Basis', 'LINESeedKR-Bd', system-ui;
+	font-size: 1.2rem;
+	line-height: 1.3;
 	width: 100%;
+	overflow-x: hidden;
+}
+
+main {
+	position: relative;
+	width: 100%;
+	min-height: 100vh;
+	min-height: 100dvh; /* 지원 안 되는 브라우저에는 위의 값이 적용됨 */
+	/* width: min(65ch, 100% - 4rem); */
+	/* margin-inline: auto; */
+}
+
+button {
+	outline: transparent;
+}
+
+.stack {
+	display: grid;
+	grid-template-areas: 'stack';
+	place-items: center;
+}
+
+.stack > * {
+	grid-area: stack;
 }
 
 @font-face {
@@ -16,4 +45,22 @@ body {
 		format('woff2');
 	font-weight: 700;
 	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Basis';
+	src: url('/Basis.woff2') format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }

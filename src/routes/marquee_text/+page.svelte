@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import './index.css';
 	import { Marquee } from './model';
 
 	let marqueeP1: HTMLParagraphElement | null;
