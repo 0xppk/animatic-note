@@ -41,6 +41,10 @@ export class Marquee implements MarqueeEffect {
 		});
 	}
 
+	appendTo(parentElement: HTMLElement) {
+		parentElement.appendChild(this.element);
+	}
+
 	scrollSetup() {
 		addEventListener('scroll', this.scrollHandler);
 	}
@@ -53,17 +57,16 @@ export class Marquee implements MarqueeEffect {
 	flow() {
 		// 한바퀴 돌았으면 리셋하고
 		if (this.distance > this.element.scrollWidth / 2) {
-			this.element.style.transform = `translateX(0)`;
+			this.element.style.translate = '0';
 			this.distance = 0;
 		}
 
 		this.distance += this.velocity;
-		this.element.style.transform = `translateX(${this.distance * this.direction}px)`;
+		this.element.style.translate = `${this.distance * this.direction}px`;
 	}
 
 	animate() {
 		this.flow();
-
 		this.rafId = requestAnimationFrame(this.animate.bind(this));
 	}
 }
