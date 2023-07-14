@@ -1,32 +1,26 @@
 import type { ScrollEffect } from '$lib/abstract';
+import { Marquee } from '../marquee_text/model';
 
 type Options = {
-	wrapper: HTMLDivElement | null;
 	sticky: HTMLDivElement | null;
 };
 
 export class StepFolder implements ScrollEffect {
-	wrapper: HTMLDivElement | null;
 	sticky: HTMLDivElement | null;
-	children?: NodeListOf<HTMLElement>;
-	length: number;
-	now: number;
+	children: NodeListOf<HTMLElement> | null;
 	headerHeight: number;
 	headerOffsetHeight: number;
 	scrollHandler: () => void;
 	resizeHandler: () => void;
 
 	constructor(options: Options) {
-		this.wrapper = options.wrapper;
 		this.sticky = options.sticky;
-		this.children = this.sticky?.querySelectorAll('section');
-		this.length = this.children?.length ?? 0;
+		this.children = null;
 
 		this.headerHeight = 2;
 		this.headerOffsetHeight = 0;
 
 		// TODO: nav length 3부터 한칸씩 밀어올릴 방법 궁리하기(23.07.13)
-		this.now = 0;
 
 		this.scrollHandler = this.animate.bind(this);
 		this.resizeHandler = this.setup.bind(this);
@@ -37,22 +31,22 @@ export class StepFolder implements ScrollEffect {
 	}
 
 	setup() {
-		if (this.wrapper) {
-			this.children?.forEach((child, i) => {
-				child.style.top = i === 0 ? '0vh' : '100vh';
+		if (this.sticky) {
+			// append marquee
+			const marqueeSection = this.makeMarquee();
+			this.sticky.appendChild(marqueeSection);
 
-				const title = child.querySelector('h3');
-				const content = child.querySelector('p');
-				const image = child.querySelector('img');
+			// default settings for each section
+			this.children = this.sticky.querySelectorAll('section');
 
-				if (title && content && image) {
-					title.style.height = this.headerHeight + 'vh';
-					image.style.transform = `scale(0)`;
-					image.style.transformOrigin = `100% 0`;
-				}
+			this.children.forEach((section) => {
+				section.style.top = '100vh';
+
+				const title = section.querySelector('h3');
+				title?.style.setProperty('--nav-height', `${this.headerHeight}vh`);
 			});
 
-			this.headerOffsetHeight = this.wrapper.querySelector('h3')!.offsetHeight;
+			this.headerOffsetHeight = this.sticky.querySelector('h3')!.offsetHeight;
 		}
 	}
 
@@ -69,48 +63,55 @@ export class StepFolder implements ScrollEffect {
 		removeEventListener('resize', this.resizeHandler);
 	}
 
-	translateSection() {
-		this.children?.forEach((child, i) => {
-			if (i === 0) return;
+	makeMarquee() {
+		const newSection = document.createElement('section');
+		const newDiv = document.createElement('div');
+		newSection.appendChild(newDiv);
+		newSection.style.borderTop = '1px solid black';
+		newDiv.classList.add('marquee');
 
-			const phase = innerHeight - this.headerOffsetHeight;
-			const s = innerHeight * i - this.headerOffsetHeight * (i - 1);
-			const e = innerHeight * (i + 1) - this.headerOffsetHeight * i;
-			const contentHeight = -100 + this.headerHeight * i;
+		new Marquee({
+			element: newDiv,
+			text: '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 일편 단심일세'
+		});
+
+		return newSection;
+	}
+
+	translateSection() {
+		this.children?.forEach((section, i) => {
+			const phase = innerHeight - this.headerOffsetHeight,
+				s = innerHeight * i - this.headerOffsetHeight * (i - 1),
+				e = innerHeight * (i + 1) - this.headerOffsetHeight * i,
+				contentHeight = -100 + this.headerHeight * i;
+
+			const image = section.querySelector('figure');
+			const marquee = section.querySelector('.marquee');
+
+			if (image) image.style.height = Math.abs(contentHeight) - this.headerHeight + '%';
 
 			if (scrollY <= s) {
-				child.style.transform = `translate3d(0, 0, 0)`;
+				section.style.transform = `translate3d(0, 0, 0)`;
 			} else if (scrollY >= e) {
-				child.style.transform = `translate3d(0, ${contentHeight}% , 0)`;
+				section.style.transform = `translate3d(0, ${contentHeight}% , 0)`;
 			} else {
-				this.now = i;
-				child.style.transform = `translate3d(0, ${
+				section.style.transform = `translate3d(0, ${
 					((scrollY - s) / phase) * contentHeight
 				}%, 0)`;
+				if (marquee) {
+					(marquee as HTMLDivElement).style.scale = `${3 - ((scrollY - s) / phase) * 2}`;
+				}
 			}
 		});
 	}
 
-	getNow(count: number) {
-		if (count > 2) {
-			return count - 2;
-		}
-		return 0;
-	}
-
 	imageScaleUp() {
-		this.children?.forEach((child, i) => {
-			const phase =
-				i === 0
-					? innerHeight - this.headerOffsetHeight
-					: innerHeight - this.headerOffsetHeight * 2;
-			const s =
-				i === 0
-					? innerHeight * i + this.headerOffsetHeight
-					: innerHeight * i + this.headerOffsetHeight - this.headerOffsetHeight * (i - 1);
-			const e = innerHeight * (i + 1) - this.headerOffsetHeight * i;
+		this.children?.forEach((section, i) => {
+			const phase = innerHeight - this.headerOffsetHeight * 2,
+				s = innerHeight * i + this.headerOffsetHeight * 2 - this.headerOffsetHeight * i,
+				e = innerHeight * (i + 1) - this.headerOffsetHeight * i;
 
-			const image = child.querySelector('img');
+			const image = section.querySelector('figure');
 			if (!image) return;
 
 			if (scrollY <= s) {
@@ -124,12 +125,12 @@ export class StepFolder implements ScrollEffect {
 	}
 
 	imageScaleDown() {
-		this.children?.forEach((child, i) => {
-			const phase = innerHeight - this.headerOffsetHeight;
-			const s = innerHeight * (i + 1) - this.headerOffsetHeight * i;
-			const e = innerHeight * (i + 2) - this.headerOffsetHeight * (i + 1);
+		this.children?.forEach((section, i) => {
+			const phase = innerHeight - this.headerOffsetHeight,
+				s = innerHeight * (i + 1) - this.headerOffsetHeight * i,
+				e = innerHeight * (i + 2) - this.headerOffsetHeight * (i + 1);
 
-			const image = child.querySelector('img');
+			const image = section.querySelector('figure');
 			if (!image) return;
 
 			if (scrollY <= s) {

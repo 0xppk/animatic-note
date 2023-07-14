@@ -2,54 +2,34 @@
 	import './index.css';
 	import { onMount } from 'svelte';
 	import { StepFolder } from './model';
-	import { Marquee } from '../marquee_text/model';
+	import { piled_menu_showList as showList } from '$lib/config';
 
 	let wrapper: HTMLDivElement | null;
 	let sticky: HTMLDivElement | null;
-	let marquee: HTMLParagraphElement | null;
 
 	onMount(() => {
-		const stepFolder = new StepFolder({ wrapper, sticky });
-		new Marquee({
-			text: '기다려봐 가고 있는 중이야 이거 메시지가 좀 더 길어야지 초기화',
-			element: marquee!
-		});
+		const stepFolder = new StepFolder({ sticky });
 		return () => stepFolder.clearSetup();
 	});
-
-	const showList = [
-		{ title: 'world', src: 'image.png' },
-		{ title: 'scenario', src: 'image.png' },
-		{ title: 'portfolio', src: 'image.png' },
-		{ title: 'crayon', src: 'image.png' },
-		{ title: 'project', src: 'image.png' }
-	];
 </script>
 
-<div style:height={'100vh'} />
 <div bind:this={wrapper} class="container">
 	<div bind:this={sticky} class="sticky">
+		<div class="hero" />
 		{#each showList as { title, src }, i (title)}
 			<section>
 				<h3 class="title">{title}</h3>
-				<p class="image">
+				<figure>
 					<img {src} alt={title} />
-				</p>
+				</figure>
 			</section>
 		{/each}
 	</div>
-	<!-- <p bind:this={marquee} class="marquee" /> -->
 </div>
-
 <footer>
 	<div>triangle</div>
 	<div>maetsor</div>
-	<div>creator</div>
-	<div>bolano</div>
-	<div>borges</div>
-	<div>sylvina ocampo</div>
 	<div>julio Cortasar</div>
 	<div>Juan Lulpo</div>
 	<div>Nicanor Parra</div>
 </footer>
-<!-- <div style:height={'10vh'} /> -->
