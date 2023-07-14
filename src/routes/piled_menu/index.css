@@ -1,6 +1,18 @@
+:root {
+	--nav-height: 2rem;
+	--content-height: calc(100% - var(--nav-height));
+}
+
+@media screen and (min-width: 768px) {
+	:root {
+		--nav-height: 3rem;
+		--content-height: calc(100% - var(--nav-height));
+	}
+}
+
 .container {
 	width: 100%;
-	min-height: 590vh;
+	min-height: 690vh;
 }
 
 .sticky {
@@ -17,6 +29,7 @@ section {
 }
 
 h3 {
+	height: var(--nav-height);
 	border-top: 1px solid black;
 	font-size: 0.9rem;
 	padding: 0.1em 0.5em;
@@ -24,18 +37,28 @@ h3 {
 	align-items: center;
 }
 
+figure {
+	height: 100%;
+	padding: 0 1rem;
+	overflow: hidden;
+	transform-origin: '100% 0';
+	transform: scale(0);
+}
+
 img {
 	display: block;
 	max-width: 100%;
+	height: var(--content-height);
+	object-fit: cover;
 }
 
 .marquee {
+	width: 100ch;
 	padding: 3rem 0;
 	font-size: 4rem;
 	white-space: nowrap;
-	background-color: red;
-	color: black;
-	border-top: 1px solid black;
+	scale: 2;
+	transform-origin: 50% 0;
 }
 
 footer {
@@ -50,4 +73,8 @@ footer > div {
 	border-top: 1px solid black;
 	padding: 0.1em 0.5em;
 	font-size: 0.9rem;
+}
+
+.hero {
+	min-height: 100vh;
 }
