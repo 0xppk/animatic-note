@@ -1,3 +1,16 @@
+:root {
+	/* 폰트 사이즈 */
+	--fs-xs: clamp(0.64rem, calc(0.67rem + -0.04vw), 0.66rem);
+	--fs-sm: clamp(0.76rem, calc(0.74rem + 0.07vw), 0.8rem);
+	--fs-base: clamp(0.88rem, calc(0.82rem + 0.22vw), 1rem);
+	--fs-lg: clamp(1.01rem, calc(0.91rem + 0.43vw), 1.25rem);
+	--fs-xl: clamp(1.16rem, calc(0.99rem + 0.72vw), 1.56rem);
+	--fs-2xl: clamp(1.33rem, calc(1.07rem + 1.1vw), 1.95rem);
+	--fs-3xl: clamp(1.53rem, calc(1.15rem + 1.61vw), 2.44rem);
+	--fs-4xl: clamp(1.76rem, calc(1.22rem + 2.28vw), 3.05rem);
+	--fs-5xl: clamp(2.02rem, calc(1.28rem + 3.17vw), 3.82rem);
+}
+
 * {
 	padding: 0;
 	margin: 0;
@@ -6,6 +19,8 @@
 
 html {
 	color-scheme: light;
+	scroll-behavior: smooth;
+	user-select: none;
 }
 
 body {
