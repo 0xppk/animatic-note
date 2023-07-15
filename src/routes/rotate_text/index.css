@@ -1,0 +1,78 @@
+.container {
+	font-size: clamp(5rem, calc(3.18rem + 6.22vw), 8rem);
+	font-family: 'LINESeedKR-Bd';
+	padding: 0.5em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+section {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.stack > span:nth-child(1) {
+	animation: fadeOffBeat 1.5s linear 0s infinite;
+}
+
+.stack > span:nth-child(2),
+.icon {
+	animation: fade 1.5s linear 0s infinite;
+}
+
+.icon {
+	padding-top: 0.2rem;
+	position: absolute;
+	font-size: clamp(5rem, calc(3.18rem + 6.22vw), 8rem);
+}
+
+.circle {
+	border: clamp(0.8rem, calc(0.68rem + 0.41vw), 1rem) solid black;
+	border-radius: 3rem;
+	padding: clamp(1.04rem, calc(0.45rem + 1.99vw), 2rem);
+	margin-top: 0.4rem;
+	animation: long-O 3.5s ease-in-out 0s infinite;
+}
+
+@keyframes long-O {
+	from {
+		width: 3rem;
+	}
+	50% {
+		width: 18rem;
+	}
+	70% {
+		width: 18rem;
+	}
+	100% {
+		width: 3rem;
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+	}
+	33% {
+		opacity: 1;
+	}
+	55% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes fadeOffBeat {
+	from {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
