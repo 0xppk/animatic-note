@@ -21,7 +21,6 @@ export class Marquee implements MarqueeEffect {
 		this.velocity = 3;
 
 		const textArray = text.split(' ');
-
 		// for 클리너
 		this.rafId = 0;
 		this.scrollHandler = () => {
@@ -34,8 +33,8 @@ export class Marquee implements MarqueeEffect {
 	}
 
 	setup(textArray: string[]) {
-		// 2배로 늘려서 무한 스크롤링 효과를 준다.
-		textArray.push(...textArray);
+		// 3배로 늘려서 무한 스크롤링 효과를 준다.
+		textArray.push(...textArray, ...textArray);
 		textArray.forEach((text) => {
 			this.element.innerText += `${text}\u00A0\u00A0`;
 		});
@@ -56,7 +55,10 @@ export class Marquee implements MarqueeEffect {
 
 	flow() {
 		// 한바퀴 돌았으면 리셋하고
-		if (this.distance > this.element.scrollWidth / 2) {
+		if (
+			this.distance >
+			(this.element.scrollWidth * Number(this.element.style.scale ?? 1)) / 3
+		) {
 			this.element.style.translate = '0';
 			this.distance = 0;
 		}

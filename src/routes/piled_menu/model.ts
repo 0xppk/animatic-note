@@ -1,5 +1,7 @@
 import type { ScrollEffect } from '$lib/abstract';
+import { MarqueeImage } from '../marquee_image/model';
 import { Marquee } from '../marquee_text/model';
+import { images } from '$lib/config';
 
 type Options = {
 	sticky: HTMLDivElement | null;
@@ -25,6 +27,7 @@ export class StepFolder implements ScrollEffect {
 		this.scrollHandler = this.animate.bind(this);
 		this.resizeHandler = this.setup.bind(this);
 
+		this.createMarquee();
 		this.setup();
 		this.scrollSetup();
 		this.resizeSetup();
@@ -32,16 +35,9 @@ export class StepFolder implements ScrollEffect {
 
 	setup() {
 		if (this.sticky) {
-			// append marquee
-			const marqueeSection = this.makeMarquee();
-			this.sticky.appendChild(marqueeSection);
-
-			// default settings for each section
 			this.children = this.sticky.querySelectorAll('section');
 
 			this.children.forEach((section) => {
-				section.style.top = '100vh';
-
 				const title = section.querySelector('h3');
 				title?.style.setProperty('--nav-height', `${this.headerHeight}vh`);
 			});
@@ -63,19 +59,19 @@ export class StepFolder implements ScrollEffect {
 		removeEventListener('resize', this.resizeHandler);
 	}
 
-	makeMarquee() {
+	createMarquee() {
 		const newSection = document.createElement('section');
 		const newDiv = document.createElement('div');
 		newSection.appendChild(newDiv);
-		newSection.style.borderTop = '1px solid black';
+		newSection.classList.add('marquee-wrapper');
 		newDiv.classList.add('marquee');
 
-		new Marquee({
+		new MarqueeImage({
 			element: newDiv,
-			text: '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 일편 단심일세'
+			images
 		});
 
-		return newSection;
+		this.sticky?.appendChild(newSection);
 	}
 
 	translateSection() {
@@ -85,22 +81,21 @@ export class StepFolder implements ScrollEffect {
 				e = innerHeight * (i + 1) - this.headerOffsetHeight * i,
 				contentHeight = -100 + this.headerHeight * i;
 
-			const image = section.querySelector('figure');
-			const marquee = section.querySelector('.marquee');
-
+			const image = section.querySelector('img');
+			const marquee = section.querySelector('.marquee') as HTMLDivElement;
 			if (image) image.style.height = Math.abs(contentHeight) - this.headerHeight + '%';
 
 			if (scrollY <= s) {
 				section.style.transform = `translate3d(0, 0, 0)`;
 			} else if (scrollY >= e) {
 				section.style.transform = `translate3d(0, ${contentHeight}% , 0)`;
+				if (marquee) marquee.style.scale = `1`;
 			} else {
 				section.style.transform = `translate3d(0, ${
 					((scrollY - s) / phase) * contentHeight
 				}%, 0)`;
-				if (marquee) {
-					(marquee as HTMLDivElement).style.scale = `${3 - ((scrollY - s) / phase) * 2}`;
-				}
+
+				if (marquee) marquee.style.scale = `${3 - ((scrollY - s) / phase) * 2}`;
 			}
 		});
 	}
@@ -108,18 +103,18 @@ export class StepFolder implements ScrollEffect {
 	imageScaleUp() {
 		this.children?.forEach((section, i) => {
 			const phase = innerHeight - this.headerOffsetHeight * 2,
-				s = innerHeight * i + this.headerOffsetHeight * 2 - this.headerOffsetHeight * i,
+				s = innerHeight * i + this.headerOffsetHeight * (2 - i),
 				e = innerHeight * (i + 1) - this.headerOffsetHeight * i;
 
-			const image = section.querySelector('figure');
-			if (!image) return;
+			const imageWrapper = section.querySelector('figure');
+			if (!imageWrapper) return;
 
 			if (scrollY <= s) {
-				image.style.transform = `scale(0)`;
+				imageWrapper.style.transform = `scale(0)`;
 			} else if (scrollY >= e) {
-				image.style.transform = 'scale(1)';
+				imageWrapper.style.transform = 'scale(1)';
 			} else {
-				image.style.transform = `scale(${(scrollY - s) / phase})`;
+				imageWrapper.style.transform = `scale(${(scrollY - s) / phase})`;
 			}
 		});
 	}
@@ -130,16 +125,16 @@ export class StepFolder implements ScrollEffect {
 				s = innerHeight * (i + 1) - this.headerOffsetHeight * i,
 				e = innerHeight * (i + 2) - this.headerOffsetHeight * (i + 1);
 
-			const image = section.querySelector('figure');
-			if (!image) return;
+			const imageWrapper = section.querySelector('figure');
+			if (!imageWrapper) return;
 
 			if (scrollY <= s) {
-				image.style.transformOrigin = '100% 0';
+				imageWrapper.style.transformOrigin = 'right top';
 			} else if (scrollY >= e) {
-				image.style.transform = 'scale(0)';
+				imageWrapper.style.transform = 'scale(0)';
 			} else {
-				image.style.transform = `scale(${1 - (scrollY - s) / phase})`;
-				image.style.transformOrigin = '0 0';
+				imageWrapper.style.transform = `scale(${1 - (scrollY - s) / phase})`;
+				imageWrapper.style.transformOrigin = 'left top';
 			}
 		});
 	}
