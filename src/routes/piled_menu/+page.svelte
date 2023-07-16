@@ -1,21 +1,24 @@
 <script lang="ts">
-	import './index.css';
-	import { onMount } from 'svelte';
-	import { StepFolder } from './model';
 	import { piled_menu_showList as showList } from '$lib/config';
+	import { onMount } from 'svelte';
+	import './index.css';
+	import { StepFolder } from './model';
+	import { RotateText } from '$lib/components';
 
-	let wrapper: HTMLDivElement | null;
 	let sticky: HTMLDivElement | null;
 
 	onMount(() => {
+		scrollTo({ top: 0 });
 		const stepFolder = new StepFolder({ sticky });
 		return () => stepFolder.clearSetup();
 	});
 </script>
 
-<div bind:this={wrapper} class="container">
+<div class="container">
 	<div bind:this={sticky} class="sticky">
-		<div class="hero" />
+		<div class="hero">
+			<svelte:component this={RotateText} />
+		</div>
 		{#each showList as { title, src }, i (title)}
 			<section>
 				<h3 class="title">{title}</h3>
@@ -26,6 +29,7 @@
 		{/each}
 	</div>
 </div>
+
 <footer>
 	<div>triangle</div>
 	<div>maetsor</div>

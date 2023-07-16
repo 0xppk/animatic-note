@@ -2,7 +2,6 @@
 	--nav-height: 2rem;
 	--content-height: calc(100% - var(--nav-height));
 }
-
 @media screen and (min-width: 768px) {
 	:root {
 		--nav-height: 3rem;
@@ -11,8 +10,10 @@
 }
 
 .container {
+	background-color: var(--color-bg);
 	width: 100%;
 	min-height: 690vh;
+	font-family: 'LeferiPoint-SpecialA';
 }
 
 .sticky {
@@ -22,43 +23,76 @@
 	min-height: 100vh;
 }
 
+.hero {
+	min-height: 100vh;
+	font-size: 2rem;
+	padding: 1em;
+	position: relative;
+}
+
+.marquee-wrapper {
+	overflow-x: hidden;
+	border-top: 1px solid black;
+}
+
+.marquee {
+	width: 100%;
+	height: 300px;
+	scale: 2;
+	transform-origin: center top;
+}
+
+.marquee > img {
+	height: 100% !important;
+}
+
+.hero-marquee {
+	bottom: 0;
+	position: absolute;
+	scale: 2;
+	transform-origin: center bottom;
+	padding: 1em;
+}
+
+/* 
+.wrapper {
+	width: 100%;
+	height: 100vh;
+	position: relative;
+	top: 0;
+	transition: transform;
+	transition-duration: 1000ms;
+} */
+
 section {
 	width: 100%;
 	height: 100%;
 	position: absolute;
+	background: var(--color-bg);
 }
 
-h3 {
+section > h3 {
 	height: var(--nav-height);
-	border-top: 1px solid black;
+	border-top: 1px solid var(--color-border);
 	font-size: 0.9rem;
 	padding: 0.1em 0.5em;
 	display: flex;
 	align-items: center;
+	font-family: 'Basis';
 }
 
-figure {
+section > figure {
 	height: 100%;
-	padding: 0 1rem;
+	/* padding: 0 1rem; */
 	overflow: hidden;
-	transform-origin: '100% 0';
+	transform-origin: 'top right';
 	transform: scale(0);
 }
 
-img {
+section > figure > img {
 	display: block;
 	max-width: 100%;
-	height: var(--content-height);
 	object-fit: cover;
-}
-
-.marquee {
-	width: 100ch;
-	padding: 3rem 0;
-	font-size: 4rem;
-	white-space: nowrap;
-	scale: 2;
-	transform-origin: 50% 0;
 }
 
 footer {
@@ -73,8 +107,13 @@ footer > div {
 	border-top: 1px solid black;
 	padding: 0.1em 0.5em;
 	font-size: 0.9rem;
+	font-family: 'Basis';
 }
 
-.hero {
-	min-height: 100vh;
+@font-face {
+	font-family: 'LeferiPoint-SpecialA';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-SpecialA.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
 }

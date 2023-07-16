@@ -12,13 +12,12 @@ section {
 	position: relative;
 }
 
-.stack > span:nth-child(1) {
-	animation: fadeOffBeat 1.5s linear 0s infinite;
+.stack > *:nth-child(1) {
+	animation: fadeOffBeat 1.5s ease-in 0s infinite;
 }
 
-.stack > span:nth-child(2),
-.icon {
-	animation: fade 1.5s linear 0s infinite;
+.stack > *:nth-child(2) {
+	animation: fade 1.5s ease-out 0s infinite;
 }
 
 .icon {
@@ -31,8 +30,25 @@ section {
 	border: clamp(0.8rem, calc(0.68rem + 0.41vw), 1rem) solid black;
 	border-radius: 3rem;
 	padding: clamp(1.04rem, calc(0.45rem + 1.99vw), 2rem);
-	margin-top: 0.4rem;
+	margin-top: 0.3rem;
 	animation: long-O 3.5s ease-in-out 0s infinite;
+}
+
+.quote {
+	width: 15rem;
+	position: absolute;
+	top: 10%;
+	right: 0%;
+	font-size: var(--fs-sm);
+	font-family: 'Basis';
+	line-height: 1.4;
+	text-transform: lowercase;
+}
+.quote > .center {
+	text-align: center;
+}
+.quote > .right {
+	text-align: right;
 }
 
 @keyframes long-O {

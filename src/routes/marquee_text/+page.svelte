@@ -12,7 +12,7 @@
 	onMount(() => {
 		if (marqueeP1 && marqueeP2) {
 			marquee1 = new Marquee({
-				text: '기다려봐 가고 있는 중이야 이거 메시지가 좀 더 길어야지 초기화',
+				text: '기다려봐 가고 있는 중이야',
 				element: marqueeP1
 			});
 

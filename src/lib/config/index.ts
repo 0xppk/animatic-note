@@ -14,3 +14,10 @@ export const random_shape_combination = [
 	{ config: 2, roundness: 3 },
 	{ config: 3, roundness: 3 }
 ];
+
+export const images = [
+	{ title: 'image1', src: '/cover.webp' },
+	{ title: 'image2', src: '/test.webp' },
+	{ title: 'image3', src: '/image.png' },
+	{ title: 'image4', src: '/image.jpg' }
+];
