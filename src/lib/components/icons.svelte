@@ -6,16 +6,14 @@
 
 	const list = {
 		mango: 'twemoji:mango',
-		kimchi: 'twemoji:victory-hand-medium-light-skin-tone',
 		eyes: 'twemoji:eyes',
 		egg: 'tabler:egg-cracked',
 		zap: 'prime:bolt',
-		moon: 'mdi:moon-waning-crescent',
-		pac: 'iconoir:pacman',
-		vic: 'fluent-emoji:victory-hand-light',
-		peach: 'twemoji:peach',
+		apple: 'ep:cherry',
 		candle: 'noto-v1:candle',
-		tongue: 'emojione:tongue'
+		vol: 'ph:heart-break-duotone',
+		bomb: 'noto:bomb',
+		loader: 'eva:loader-outline'
 	};
 </script>
 
